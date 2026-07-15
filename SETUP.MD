@@ -5,6 +5,7 @@
 - **OS:** macOS or Linux (tested on macOS with Apple Silicon)
 - **Python:** 3.11+
 - **C Compiler:** gcc or clang
+- **Java:** 17 or newer (required by ENHSP-opt)
 - **RAM:** 8GB minimum
 
 ## Installation Steps
@@ -108,11 +109,18 @@ conda activate mlc-stack
 # Test all imports
 python -c "import mujoco; import casadi; import numpy; print('Core packages OK')"
 
+# Verify that the required optimal PDDL planner exists (no satisficing fallback)
+python -c "from unified_planning.shortcuts import OneshotPlanner; p = OneshotPlanner(name='enhsp-opt'); print('ENHSP-opt OK'); p.__exit__(None, None, None)"
+
 # Test Acados
 python -c "from acados_template import AcadosOcp; print('Acados integration OK')"
 ```
 
 All commands should complete without errors.
+
+The runtime accepts only `enhsp-opt` and only plans reported as
+`SOLVED_OPTIMALLY`. It intentionally does not fall back to the satisficing
+`enhsp` configuration.
 
 ---
 

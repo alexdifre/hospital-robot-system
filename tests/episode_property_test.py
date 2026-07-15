@@ -129,7 +129,7 @@ class FakePlan:
 class FakePlannerResult:
     def __init__(self, names=None):
         self.plan = FakePlan(names or PDDL_FIRST_ACTION_SEQUENCE)
-        self.status = "SOLVED"
+        self.status = "SOLVED_OPTIMALLY"
 
 
 class FakeProblem:

@@ -16,7 +16,10 @@ import numpy as np
 from core.execution.formulation import SharedMPCFormulation
 from core.execution.mpc_solver import AcadosRuntimeError
 from core.planning.fuzzy_state import LOCATION_DEFUZZIFICATION_THRESHOLD
-from core.task_planning.pddl_engine import make_pddl_oneshot_planner
+from core.task_planning.pddl_engine import (
+    is_optimal_plan_status,
+    make_pddl_oneshot_planner,
+)
 from .metrics import EpisodeMetrics
 from tasks.medication_delivery.task_actions import (
     DELIVERY_ACTIONS as MED_DELIVERY_ACTIONS,
@@ -314,6 +317,8 @@ class EpisodeRunnerMixin:
         with make_pddl_oneshot_planner(engine) as planner:
             result = planner.solve(problem)
 
+        result_status = getattr(result, "status", "")
+        optimal_plan = is_optimal_plan_status(result_status)
         raw_actions = list(getattr(getattr(result, "plan", None), "actions", []) or [])
         pddl_action_names = [self._pddl_action_name(action) for action in raw_actions]
         planned_actions = []
@@ -325,10 +330,11 @@ class EpisodeRunnerMixin:
                 unknown_actions.append(action_name)
 
         plan_info = {
-            "success": bool(planned_actions) and not unknown_actions,
+            "success": optimal_plan and bool(planned_actions) and not unknown_actions,
             "mode": "pddl_enhsp_replan_first_action",
             "engine": engine,
-            "status": str(getattr(result, "status", "")),
+            "status": str(result_status),
+            "optimal_plan": optimal_plan,
             "domain_path": str(domain_path),
             "problem_path": str(problem_path),
             "plan_length": len(planned_actions),
