@@ -45,6 +45,9 @@ class MPCSensitivity:
     du0_dR: np.ndarray  # (3,3) ∂u*_0/∂R_diag
     compute_time: float
     dJ_dz_target: np.ndarray = field(default_factory=lambda: np.zeros(2))  # (2,) ∂J*/∂z_target
+    dxN_dz_target: np.ndarray = field(
+        default_factory=lambda: np.zeros((6, 2))
+    )  # (6,2) ∂x*_N/∂z_target from the IFT/KKT primal sensitivity
 
 
 # =============================================================================
@@ -65,7 +68,7 @@ class SharedMPCFormulation:
 
     Cost: Quadratic tracking
         J = Σ (x_k - x_ref)^T Q (x_k - x_ref) + u_k^T R u_k
-          + 10 * (x_N - x_ref)^T Q (x_N - x_ref)  (terminal)
+          + terminal_weight * (x_N - x_ref)^T Q (x_N - x_ref)
           + slack penalties (soft obstacle constraints)
 
     Constraints:
@@ -91,6 +94,8 @@ class SharedMPCFormulation:
     # Default weights
     Q_default = np.array([50.0, 50.0, 5.0, 2.0, 2.0, 2.0])
     R_default = np.array([1.0, 1.0, 1.0])
+    TERMINAL_COST_MULTIPLIER = 100.0
+    TERMINAL_COST_MAX = 20000.0
 
     @staticmethod
     def continuous_dynamics(x: ca.MX, u: ca.MX) -> ca.MX:

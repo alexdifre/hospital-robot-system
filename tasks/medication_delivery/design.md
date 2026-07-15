@@ -310,7 +310,6 @@ tasks/medication_delivery/
   task_actions.py          # TaskAction enum + module-level constants
   task_state.py            # TaskState dataclass
   task_state_manager.py    # Preconditions, transitions, stock tracking
-  task_planner.py          # A* over task space
   lhmoaro.py               # LearnableTranslator (shared infrastructure)
 ```
 
@@ -332,8 +331,8 @@ Both tasks share:
 - Same 5-dimension preference weight vector w\*
 - Same preference learner (outer loop)
 - Same translator with learnable φ (inner loop)
-- Same HybridMPC controller (CasADi + sensitivities)
-- Same NavigationStack (A\* grid → waypoints)
+- Same HybridMPC controller (Acados + trajectory/terminal sensitivities)
+- Same direct waypoint reference strategy as medication delivery
 - Same FuzzyStateEstimator (continuous position → discrete state)
 
 The integrator dispatches to the correct task planner and state manager

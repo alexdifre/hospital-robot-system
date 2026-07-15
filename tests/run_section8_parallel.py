@@ -47,8 +47,7 @@ CONDITION_SUBDIRS = {
     "baselines":  ["baselines/uniform", "baselines/random",
                    "baselines/outer_only", "baselines/bandit"],
     "ablations":  ["ablations/crisp", "ablations/no_decay",
-                   "ablations/med_only", "ablations/meal_only",
-                   "ablations/finite_diff"],
+                   "ablations/med_only", "ablations/meal_only"],
     "robustness": ["robustness/noise_0.05", "robustness/noise_0.1",
                    "robustness/noise_0.2", "robustness/random_init",
                    "robustness/dynamic_risk", "robustness/ambiguous"],
@@ -136,7 +135,6 @@ def merge_summaries(condition: str):
                     "final_distance":      d.get("final_distance", None),
                     "best_distance":       d.get("best_distance", None),
                     "success_rate":        d.get("success_rate", 0),
-                    "unique_plans":        d.get("unique_plans", 0),
                     "wall_time":           d.get("wall_time", 0),
                 })
             except Exception as e:
