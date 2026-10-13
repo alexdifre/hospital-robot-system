@@ -1,11 +1,10 @@
 # Hospital Robot System
 
-**Numerical Implementation of:**
+## Numerical Implementation of:
 
-> *Mission-Aligned and Safe Scientifically Informed Deterministic Policy Reinforcement Learning — Part 2: Algorithms and Numerical Simulation*
-> Vyacheslav Kungurtsev, Monicah Naibei, Haozhe Tian, Akhil Anand, Sebastien Gros, Homayoun Hamedmoghadam — 2025
+> *Mission-Aligned Learning-Informed Control of Autonomous Systems: Formulation and Foundations*  
+> Vyacheslav Kungurtsev, Alessandro Di Frenna, Gustav Sir, Monicah Cherop Naibei, Haozhe Tian, Homayoun Hamedmoghadam, Akhil Anand, Sebastien Gros — 2026
 
----
 
 ## What This Is
 
